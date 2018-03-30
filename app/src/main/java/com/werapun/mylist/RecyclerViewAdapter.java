@@ -12,6 +12,7 @@ public class RecyclerViewAdapter
 
     LayoutInflater mLayoutInflater;
     String [] list;
+    ItemClickListener mItemClickListener;
 
     public RecyclerViewAdapter(Context context, String[] list) {
         mLayoutInflater = LayoutInflater.from(context);
@@ -35,11 +36,28 @@ public class RecyclerViewAdapter
         return list.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public String getItem(int position) {
+        return list[position];
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mItemClickListener = itemClickListener;
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
         protected TextView tvName;
         public ViewHolder(View itemView) {
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null )
+                mItemClickListener.onItemClick(v,getAdapterPosition());
         }
     }
 }

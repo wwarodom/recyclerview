@@ -10,7 +10,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemClickListener {
+
+    RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +42,15 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         RecyclerView listView = findViewById(R.id.listView1);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), list);
+        adapter = new RecyclerViewAdapter(getApplicationContext(), list);
         listView.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setClickListener(this);
         listView.setAdapter(adapter);
+    }
 
-
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(this, "Click: " + adapter.getItem(position) +
+                " on row:" + position, Toast.LENGTH_SHORT).show();
     }
 }
